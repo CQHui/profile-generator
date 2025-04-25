@@ -4,432 +4,636 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>简历转换工具</title>
+    <title>个人主页生成器 | Profile Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a0ca3;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #2b2d42;
+            --gray: #8d99ae;
+            --success: #52b788;
+            --warning: #ffb703;
+            --error: #e63946;
+            --radius: 12px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
             margin: 0;
-            padding: 20px;
-            background-color: #f5f7fa;
-            color: #333;
+            padding: 0;
+            box-sizing: border-box;
         }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', -apple-system, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
         .container {
-            max-width: 1200px;
+            max-width: 900px;
+            width: 100%;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
         }
-        h1 {
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 40px 30px;
             text-align: center;
-            color: #2c3e50;
-            margin-bottom: 20px;
+            color: white;
         }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .step-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin: 0 15px;
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+        
+        .step.active {
+            opacity: 1;
+        }
+        
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .step.active .step-number {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .main-content {
+            padding: 40px 30px;
+        }
+        
         .upload-section {
             text-align: center;
-            padding: 30px;
-            border: 2px dashed #ddd;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            transition: all 0.3s;
+            padding: 40px 30px;
+            border: 2px dashed #e9ecef;
+            border-radius: var(--radius);
+            margin-bottom: 30px;
+            transition: var(--transition);
+            background-color: #fcfcfc;
         }
+        
         .upload-section:hover {
-            border-color: #4b6cb7;
+            border-color: var(--primary);
+            background-color: #f8f9fa;
         }
+        
         .file-input {
             display: none;
         }
+        
+        .key-input-container {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .key-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: var(--radius);
+            font-size: 16px;
+            transition: var(--transition);
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .key-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
         .file-label {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #4b6cb7;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 25px;
+            background-color: var(--primary);
             color: white;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
         }
+        
+        .file-label i {
+            margin-right: 8px;
+        }
+        
         .file-label:hover {
-            background-color: #3a5795;
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
         }
+        
         .selected-file {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #555;
+            margin-top: 20px;
+            font-size: 15px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .convert-btn, .config-btn, .profile-btn {
-            display: inline-block;
-            padding: 12px 25px;
-            background-color: #4b6cb7;
+        
+        .selected-file i {
+            margin-right: 8px;
+            color: var(--success);
+        }
+        
+        .button-group {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .profile-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: var(--radius);
             cursor: pointer;
-            font-size: 16px;
-            margin: 0 10px;
-            transition: background-color 0.3s;
+            font-size: 18px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+            min-width: 220px;
         }
-        .convert-btn:hover, .config-btn:hover, .profile-btn:hover {
-            background-color: #3a5795;
+        
+        .profile-btn i {
+            margin-right: 10px;
+            font-size: 20px;
         }
-        .convert-btn:disabled, .config-btn:disabled, .profile-btn:disabled {
-            background-color: #cccccc;
+        
+        .profile-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+        }
+        
+        .profile-btn:disabled {
+            background: linear-gradient(135deg, #b8c2cc 0%, #8d99ae 100%);
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
+        
         .loading {
             display: none;
             text-align: center;
-            margin: 20px 0;
+            margin: 30px 0;
         }
+        
         .loading-spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            position: relative;
+        }
+        
+        .loading-spinner:before,
+        .loading-spinner:after {
+            content: '';
+            position: absolute;
             border-radius: 50%;
-            border-top: 4px solid #4b6cb7;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
+            animation: pulse 2s linear infinite;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        
+        .loading-spinner:before {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            animation-delay: 0.5s;
         }
+        
+        .loading-spinner:after {
+            width: 75%;
+            height: 75%;
+            background: white;
+            top: 12.5%;
+            left: 12.5%;
+            animation-delay: 0s;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(0.8); opacity: 1; }
+        }
+        
+        .loading-text {
+            font-size: 18px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .loading-subtext {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 8px;
+        }
+        
         .result-area {
             display: none;
-            margin-top: 30px;
-            padding: 20px;
-            border: 1px solid #eee;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+            margin-top: 40px;
+            padding: 0;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background-color: white;
+            box-shadow: var(--shadow);
         }
+        
         .result-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            padding: 20px 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid #e9ecef;
         }
+        
         .result-title {
             font-size: 18px;
-            font-weight: bold;
-            color: #2c3e50;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
         }
+        
+        .result-title i {
+            margin-right: 10px;
+            color: var(--success);
+        }
+        
         .processing-info {
             font-size: 14px;
-            color: #6c7a89;
+            color: var(--gray);
+            font-weight: 500;
         }
+        
         .result-content {
-            background-color: white;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #eee;
-            white-space: pre-wrap;
-            max-height: 500px;
-            overflow-y: auto;
-            font-size: 14px;
-            line-height: 1.5;
+            padding: 25px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--dark);
         }
-        .copy-btn {
-            background-color: #4b6cb7;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s;
-        }
-        .copy-btn:hover {
-            background-color: #3a5795;
-        }
-        .message {
-            text-align: center;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            display: none;
-        }
-        .message.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .message.warning {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
-        }
-        .message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .button-group {
-            text-align: center;
-            margin-top: 20px;
-        }
+        
         .config-files {
-            margin-top: 15px;
-            padding: 15px;
-            background-color: #f0f4f8;
-            border-radius: 5px;
+            margin-top: 25px;
+            padding: 0;
         }
+        
+        .config-files-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .config-files-title i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+        
         .config-file-link {
-            display: block;
-            padding: 8px 12px;
-            margin: 5px 0;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            color: #4b6cb7;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: var(--radius);
+            color: var(--dark);
             text-decoration: none;
-            transition: all 0.3s;
+            margin-bottom: 10px;
+            transition: var(--transition);
         }
+        
+        .config-file-link i {
+            font-size: 20px;
+            margin-right: 12px;
+            color: var(--gray);
+        }
+        
         .config-file-link:hover {
-            background-color: #f5f7fa;
-            border-color: #4b6cb7;
+            background-color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        /* HTML下载链接样式 */
+        
         .html-download-link {
-            margin-top: 15px;
-            background-color: #4b6cb7;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            font-weight: bold;
-            text-align: center;
-            border: none;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        
+        .html-download-link i {
+            color: white;
         }
         
         .html-download-link:hover {
-            background-color: #3a5795;
-            color: white;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
         }
-        /* 标签页样式 */
-        .tab-container {
-            margin-bottom: 20px;
-        }
-        .tab-buttons {
+        
+        .message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            max-width: 400px;
+            padding: 16px 20px;
+            border-radius: var(--radius);
             display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 20px;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
         }
-        .tab-btn {
-            padding: 10px 20px;
-            background: none;
-            border: none;
-            border-bottom: 3px solid transparent;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            color: #666;
-            transition: all 0.3s;
+        
+        .message.show {
+            transform: translateX(0);
         }
-        .tab-btn.active {
-            color: #4b6cb7;
-            border-bottom-color: #4b6cb7;
+        
+        .message i {
+            font-size: 20px;
+            margin-right: 12px;
         }
-        .tab-content {
-            display: none;
+        
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 5px solid var(--success);
         }
-        .tab-content.active {
-            display: block;
+        
+        .message.success i {
+            color: var(--success);
         }
-        /* 新增样式-Key输入 */
-        .key-input-container {
-            margin-bottom: 15px;
+        
+        .message.warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border-left: 5px solid var(--warning);
+        }
+        
+        .message.warning i {
+            color: var(--warning);
+        }
+        
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid var(--error);
+        }
+        
+        .message.error i {
+            color: var(--error);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        footer {
             text-align: center;
+            margin-top: 40px;
+            color: var(--gray);
+            font-size: 14px;
         }
-        .key-input {
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            width: 250px;
-            margin-right: 10px;
-        }
-        .key-input:focus {
-            border-color: #4b6cb7;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.2);
+        
+        @media (max-width: 768px) {
+            body { padding: 20px 15px; }
+            header { padding: 30px 20px; }
+            h1 { font-size: 2rem; }
+            .main-content { padding: 30px 20px; }
+            .step-indicators { flex-direction: column; }
+            .step { margin: 5px 0; }
+            .profile-btn { width: 100%; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>简历文本转换工具</h1>
+        <header>
+            <h1>个人主页生成器</h1>
+            <p class="subtitle">上传您的简历，快速生成精美的个人主页，展示您的专业能力和项目经验</p>
+            <div class="step-indicators">
+                <div class="step active">
+                    <div class="step-number">1</div>
+                    <span>输入身份标识</span>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <span>上传简历文件</span>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <span>生成个人主页</span>
+                </div>
+            </div>
+        </header>
         
-        <div class="message" id="message"></div>
-        
-        <div class="tab-container">
-            <div class="tab-buttons">
-                <button class="tab-btn active" data-tab="basic-tab">基础功能</button>
-                <button class="tab-btn" data-tab="profile-tab">生成个人主页</button>
+        <div class="main-content">
+            <div class="message" id="message">
+                <i class="fas fa-info-circle"></i>
+                <span id="message-text"></span>
             </div>
             
-            <div class="tab-content active" id="basic-tab">
-                <div class="upload-section">
-                    <input type="file" id="fileInput" class="file-input" accept=".txt,.pdf" />
-                    <label for="fileInput" class="file-label">选择文件</label>
-                    <div class="selected-file" id="selectedFile">未选择文件</div>
+            <div class="upload-section fade-in">
+                <div class="key-input-container">
+                    <input type="text" id="keyInput" class="key-input" placeholder="请输入唯一标识符 (如：您的名字)" />
                 </div>
+                <input type="file" id="profileFileInput" class="file-input" accept=".pdf" />
+                <label for="profileFileInput" class="file-label">
+                    <i class="fas fa-file-pdf"></i>
+                    选择PDF简历
+                </label>
+                <div class="selected-file" id="profileSelectedFile">未选择文件</div>
                 
                 <div class="button-group">
-                    <button id="convertBtn" class="convert-btn" disabled>转换为文本</button>
-                    <button id="configBtn" class="config-btn" disabled>生成YAML配置</button>
+                    <button id="profileBtn" class="profile-btn" disabled>
+                        <i class="fas fa-magic"></i>
+                        生成个人主页
+                    </button>
                 </div>
             </div>
             
-            <div class="tab-content" id="profile-tab">
-                <div class="upload-section">
-                    <div class="key-input-container">
-                        <input type="text" id="keyInput" class="key-input" placeholder="输入唯一标识符" />
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">正在生成您的个人主页...</p>
+                <p class="loading-subtext">这可能需要一点时间，我们正在分析您的简历并创建精美的页面</p>
+            </div>
+            
+            <div class="result-area fade-in" id="resultArea">
+                <div class="result-header">
+                    <div class="result-title">
+                        <i class="fas fa-check-circle"></i>
+                        生成结果
                     </div>
-                    <input type="file" id="profileFileInput" class="file-input" accept=".pdf" />
-                    <label for="profileFileInput" class="file-label">选择PDF简历</label>
-                    <div class="selected-file" id="profileSelectedFile">未选择文件</div>
+                    <div class="processing-info" id="processingInfo"></div>
                 </div>
-                
-                <div class="button-group">
-                    <button id="profileBtn" class="profile-btn" disabled>生成个人主页配置</button>
+                <div class="result-content" id="resultContent"></div>
+                <div class="config-files" id="configFiles">
+                    <div class="config-files-title">
+                        <i class="fas fa-download"></i>
+                        下载资源
+                    </div>
+                    <div id="configFileLinks"></div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="loading" id="loading">
-            <div class="loading-spinner"></div>
-            <p>处理中，请稍候...</p>
-        </div>
-        
-        <div class="result-area" id="resultArea">
-            <div class="result-header">
-                <div class="result-title">转换结果</div>
-                <div class="processing-info" id="processingInfo"></div>
-            </div>
-            <div class="result-content" id="resultContent"></div>
-            <div class="config-files" id="configFiles" style="display: none;">
-                <h3>生成的配置文件</h3>
-                <div id="configFileLinks"></div>
             </div>
         </div>
     </div>
+    
+    <footer>
+        &copy; 2025 Profile Generator - 基于AI的个人主页生成工具 | Design by 陈启辉，电话联系<a href="tel:+8613588307742">+86 13588307742</a>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 常规转换相关
-            const fileInput = document.getElementById('fileInput');
-            const selectedFile = document.getElementById('selectedFile');
-            const convertBtn = document.getElementById('convertBtn');
-            const configBtn = document.getElementById('configBtn');
-            
-            // 个人主页生成相关
+            // 获取元素引用
             const keyInput = document.getElementById('keyInput');
             const profileFileInput = document.getElementById('profileFileInput');
             const profileSelectedFile = document.getElementById('profileSelectedFile');
             const profileBtn = document.getElementById('profileBtn');
-            
-            // 通用元素
             const loading = document.getElementById('loading');
             const resultArea = document.getElementById('resultArea');
             const resultContent = document.getElementById('resultContent');
             const processingInfo = document.getElementById('processingInfo');
             const message = document.getElementById('message');
+            const messageText = document.getElementById('message-text');
             const configFiles = document.getElementById('configFiles');
             const configFileLinks = document.getElementById('configFileLinks');
+            const steps = document.querySelectorAll('.step');
             
-            // 标签切换
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-            
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    
-                    // 移除所有激活状态
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    tabContents.forEach(content => content.classList.remove('active'));
-                    
-                    // 激活当前标签
-                    this.classList.add('active');
-                    document.getElementById(tabId).classList.add('active');
-                    
-                    // 隐藏结果区域和消息
-                    resultArea.style.display = 'none';
-                    hideMessage();
+            // 更新步骤状态
+            function updateSteps(activeStep) {
+                steps.forEach((step, index) => {
+                    if (index < activeStep) {
+                        step.classList.add('active');
+                    } else {
+                        step.classList.remove('active');
+                    }
                 });
-            });
+            }
             
-            // 文件选择 - 基础功能
-            fileInput.onchange = function() {
-                if (fileInput.files.length > 0) {
-                    selectedFile.textContent = fileInput.files[0].name;
-                    convertBtn.disabled = false;
-                    configBtn.disabled = false;
-                } else {
-                    selectedFile.textContent = '未选择文件';
-                    convertBtn.disabled = true;
-                    configBtn.disabled = true;
-                }
-                resultArea.style.display = 'none';
-                hideMessage();
-            };
-            
-            // 文件选择 - 个人主页
+            // 文件选择处理
             profileFileInput.onchange = function() {
                 if (profileFileInput.files.length > 0) {
-                    profileSelectedFile.textContent = profileFileInput.files[0].name;
+                    profileSelectedFile.innerHTML = `<i class="fas fa-check"></i> ${profileFileInput.files[0].name}`;
+                    updateSteps(2); // 激活第2步
                     updateProfileButtonState();
                 } else {
                     profileSelectedFile.textContent = '未选择文件';
                     profileBtn.disabled = true;
+                    updateSteps(1); // 回到第1步
                 }
                 resultArea.style.display = 'none';
-                hideMessage();
             };
             
             // Key输入检查
-            keyInput.addEventListener('input', updateProfileButtonState);
+            keyInput.addEventListener('input', function() {
+                updateProfileButtonState();
+                if (keyInput.value.trim() !== '') {
+                    updateSteps(1); // 激活第1步
+                }
+            });
             
+            // 更新生成按钮状态
             function updateProfileButtonState() {
                 // 同时满足：key不为空且文件已选择
-                profileBtn.disabled = !(keyInput.value.trim() !== '' && profileFileInput.files.length > 0);
+                const isEnabled = keyInput.value.trim() !== '' && profileFileInput.files.length > 0;
+                profileBtn.disabled = !isEnabled;
+                
+                if (isEnabled) {
+                    updateSteps(2); // 文件已选择，key已输入
+                }
             }
             
             // 显示消息
             function showMessage(text, type) {
-                message.textContent = text;
+                messageText.textContent = text;
                 message.className = 'message ' + type;
-                message.style.display = 'block';
+                message.classList.add('show');
                 
                 // 5秒后自动隐藏
                 setTimeout(function() {
-                    message.style.display = 'none';
+                    message.classList.remove('show');
                 }, 5000);
-            }
-            
-            // 隐藏消息
-            function hideMessage() {
-                message.style.display = 'none';
             }
             
             // 开始处理状态
             function startProcessing() {
                 loading.style.display = 'block';
-                convertBtn.disabled = true;
-                configBtn.disabled = true;
                 profileBtn.disabled = true;
                 resultArea.style.display = 'none';
-                hideMessage();
+                updateSteps(3); // 激活第3步 - 生成中
             }
             
             // 结束处理状态
             function endProcessing() {
                 loading.style.display = 'none';
-                
-                // 恢复基础功能按钮状态
-                if (fileInput.files.length > 0) {
-                    convertBtn.disabled = false;
-                    configBtn.disabled = false;
-                }
                 
                 // 恢复个人主页按钮状态
                 updateProfileButtonState();
@@ -473,7 +677,7 @@
                     // 显示结果
                     if (data.success) {
                         resultContent.textContent = data.content || '个人主页配置文件生成成功！';
-                        processingInfo.textContent = `处理时间: ${data.processingTimeMs} 毫秒`;
+                        processingInfo.textContent = `处理时间: ${(data.processingTimeMs/1000).toFixed(2)} 秒`;
                         resultArea.style.display = 'block';
                         
                         // 显示配置文件链接
@@ -482,7 +686,7 @@
                             data.configFiles.forEach(file => {
                                 const link = document.createElement('a');
                                 link.href = file;
-                                link.textContent = file.split('/').pop();
+                                link.innerHTML = `<i class="fas fa-file-code"></i> ${file.split('/').pop()}`;
                                 link.className = 'config-file-link';
                                 link.setAttribute('target', '_blank');
                                 configFileLinks.appendChild(link);
@@ -492,7 +696,7 @@
                             if (data.htmlUrl) {
                                 const htmlLink = document.createElement('a');
                                 htmlLink.href = data.htmlUrl;
-                                htmlLink.textContent = '下载个人主页HTML文件';
+                                htmlLink.innerHTML = `<i class="fas fa-file-download"></i> 下载个人主页HTML文件`;
                                 htmlLink.className = 'config-file-link html-download-link';
                                 htmlLink.setAttribute('target', '_blank');
                                 configFileLinks.appendChild(htmlLink);
@@ -503,129 +707,9 @@
                             configFiles.style.display = 'none';
                         }
                         
-                        showMessage('个人主页配置文件生成成功！', 'success');
+                        showMessage('个人主页生成成功！', 'success');
                     } else {
-                        throw new Error(data.error || '生成个人主页配置失败');
-                    }
-                })
-                .catch(error => {
-                    showMessage('处理失败: ' + error.message, 'error');
-                    console.error('请求错误:', error);
-                })
-                .finally(() => {
-                    // 结束处理状态
-                    endProcessing();
-                });
-            };
-            
-            // 文本转换按钮
-            convertBtn.onclick = function() {
-                // 检查是否选择了文件
-                if (!fileInput.files || fileInput.files.length === 0) {
-                    showMessage('请选择一个文件', 'warning');
-                    return;
-                }
-                
-                // 开始处理
-                startProcessing();
-                
-                // 准备表单数据
-                const formData = new FormData();
-                formData.append('file', fileInput.files[0]);
-                
-                // 发送API请求
-                fetch('/api/resume/convert', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('服务器响应错误: ' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // 显示结果
-                    if (data.success) {
-                        resultContent.textContent = data.content;
-                        processingInfo.textContent = `处理时间: ${data.processingTimeMs} 毫秒`;
-                        resultArea.style.display = 'block';
-                        configFiles.style.display = 'none';
-                    } else {
-                        throw new Error(data.error || '转换失败');
-                    }
-                })
-                .catch(error => {
-                    showMessage('处理失败: ' + error.message, 'error');
-                    console.error('请求错误:', error);
-                })
-                .finally(() => {
-                    // 结束处理状态
-                    endProcessing();
-                });
-            };
-            
-            // 生成YAML配置按钮
-            configBtn.onclick = function() {
-                // 检查是否选择了文件
-                if (!fileInput.files || fileInput.files.length === 0) {
-                    showMessage('请选择一个文件', 'warning');
-                    return;
-                }
-                
-                // 开始处理
-                startProcessing();
-                
-                // 准备表单数据
-                const formData = new FormData();
-                formData.append('file', fileInput.files[0]);
-                
-                // 发送API请求
-                fetch('/api/resume/generate-config', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('服务器响应错误: ' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // 显示结果
-                    if (data.success) {
-                        resultContent.textContent = data.content;
-                        processingInfo.textContent = `处理时间: ${data.processingTimeMs} 毫秒`;
-                        resultArea.style.display = 'block';
-                        
-                        // 显示配置文件链接
-                        if (data.configFiles && data.configFiles.length > 0) {
-                            configFileLinks.innerHTML = '';
-                            data.configFiles.forEach(file => {
-                                const link = document.createElement('a');
-                                link.href = file;
-                                link.textContent = file.split('/').pop();
-                                link.className = 'config-file-link';
-                                link.setAttribute('target', '_blank');
-                                configFileLinks.appendChild(link);
-                            });
-                            
-                            // 添加HTML下载链接
-                            if (data.htmlUrl) {
-                                const htmlLink = document.createElement('a');
-                                htmlLink.href = data.htmlUrl;
-                                htmlLink.textContent = '下载个人主页HTML文件';
-                                htmlLink.className = 'config-file-link html-download-link';
-                                htmlLink.setAttribute('target', '_blank');
-                                configFileLinks.appendChild(htmlLink);
-                            }
-                            
-                            configFiles.style.display = 'block';
-                        } else {
-                            configFiles.style.display = 'none';
-                        }
-                    } else {
-                        throw new Error(data.error || '生成配置失败');
+                        throw new Error(data.error || '生成个人主页失败');
                     }
                 })
                 .catch(error => {
