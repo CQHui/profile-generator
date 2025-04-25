@@ -1,6 +1,7 @@
 HELP.md
 target/
 temp/
+!**/src/main/resources/static/profile_website/config/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

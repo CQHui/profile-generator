@@ -34,75 +34,6 @@ public class ResumeController {
     private final OssFileProcessingService ossFileProcessingService;
     private final OssService ossService;
     private static final Pattern KEY_PATTERN = Pattern.compile("^[a-zA-Z0-9_-]+$");
-
-    @PostMapping("/convert")
-    public ResponseEntity<ResumeResponse> convertResume(@RequestParam("file") MultipartFile file) {
-        long startTime = System.currentTimeMillis();
-        
-        try {
-            // 记录上传文件信息
-            logFileInfo(file);
-            
-            // 使用OSS文件处理服务处理文件
-            String extractedText = ossFileProcessingService.processFile(file);
-            log.info("成功处理文件，提取文本长度: {} 字符", extractedText.length());
-            
-            // 调用AI服务进行处理
-            String processedResume = resumeProcessingService.convertResumeToText(extractedText);
-            log.info("成功转换简历文本，转换后长度: {} 字符", processedResume.length());
-            
-            // 计算处理时间
-            long processingTime = System.currentTimeMillis() - startTime;
-            log.info("处理完成，总耗时: {}ms", processingTime);
-            
-            return ResponseEntity.ok(ResumeResponse.success(processedResume, processingTime));
-        } catch (IllegalArgumentException e) {
-            log.error("参数错误: {}", e.getMessage());
-            return ResponseEntity.badRequest().body(ResumeResponse.error(e.getMessage()));
-        } catch (Exception e) {
-            log.error("未预期的错误: {}", e.getMessage(), e);
-            return ResponseEntity.internalServerError().body(ResumeResponse.error("服务器内部错误: " + e.getMessage()));
-        }
-    }
-    
-    @PostMapping("/generate-config")
-    public ResponseEntity<ResumeResponse> generateYamlConfig(@RequestParam("file") MultipartFile file) {
-        long startTime = System.currentTimeMillis();
-        
-        try {
-            // 记录上传文件信息
-            logFileInfo(file);
-            
-            // 使用OSS文件处理服务处理文件
-            String extractedText = ossFileProcessingService.processFile(file);
-            log.info("成功处理文件，提取文本长度: {} 字符", extractedText.length());
-            
-            // 调用AI服务生成YAML格式
-            Flux<String> yamlFlux = resumeProcessingService.convertResumeToYaml(extractedText);
-            
-            // 收集Flux内容为字符串
-            String yamlContent = yamlFlux.collectList().map(chunks -> String.join("", chunks)).block();
-            log.info("成功生成YAML内容，长度: {} 字符", yamlContent.length());
-            
-            // 保存YAML文件到指定目录
-            String[] configFiles = saveYamlFiles(yamlContent);
-            
-            // 计算处理时间
-            long processingTime = System.currentTimeMillis() - startTime;
-            log.info("YAML配置生成完成，总耗时: {}ms", processingTime);
-            
-            return ResponseEntity.ok(ResumeResponse.successWithConfig("YAML配置文件已生成并保存", configFiles, processingTime));
-        } catch (IllegalArgumentException e) {
-            log.error("参数错误: {}", e.getMessage());
-            return ResponseEntity.badRequest().body(ResumeResponse.error(e.getMessage()));
-        } catch (IOException e) {
-            log.error("文件处理错误: {}", e.getMessage(), e);
-            return ResponseEntity.badRequest().body(ResumeResponse.error("文件处理失败: " + e.getMessage()));
-        } catch (Exception e) {
-            log.error("未预期的错误: {}", e.getMessage(), e);
-            return ResponseEntity.internalServerError().body(ResumeResponse.error("服务器内部错误: " + e.getMessage()));
-        }
-    }
     
     /**
      * 保存YAML文件到指定目录
@@ -209,7 +140,7 @@ public class ResumeController {
             log.info("成功处理PDF文件，提取文本长度: {} 字符", extractedText.length());
             
             // 调用AI服务生成YAML格式
-            Flux<String> yamlFlux = resumeProcessingService.convertResumeToYaml(extractedText);
+            Flux<String> yamlFlux = resumeProcessingService.convertResumeToYaml(extractedText, ossService.getUrlPrefix() + ossPath);
             
             // 收集Flux内容为字符串
             String yamlContent = yamlFlux.collectList().map(chunks -> String.join("", chunks)).block();

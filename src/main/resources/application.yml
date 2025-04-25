@@ -39,4 +39,4 @@ aliyun:
     access-key-secret: ${oss_access_key_secret}
     bucket-name: resume-config
     dir-prefix: resumes/
-    url-prefix: https://${aliyun.oss.bucket-name}.${aliyun.oss.endpoint}/
+    url-prefix: https://${aliyun.oss.bucket-name}.oss-cn-hangzhou.aliyuncs.com/${aliyun.oss.dir-prefix}

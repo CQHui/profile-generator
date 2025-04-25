@@ -42,6 +42,10 @@ public class OssService {
     @Value("${aliyun.oss.dir-prefix}")
     private String dirPrefix;
 
+    @Getter
+    @Value("${aliyun.oss.url-prefix}")
+    private String urlPrefix;
+
     /**
      * 上传文件到OSS
      * @param file 要上传的文件

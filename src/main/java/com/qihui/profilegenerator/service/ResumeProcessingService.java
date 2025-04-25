@@ -41,6 +41,7 @@ public class ResumeProcessingService {
             - 对于basic.roles字段，根据简历内容推断出适当的角色标签（2-6个）
             - 对于about.description字段，根据简历内容生成一段个人概述
             - 对于projects.description字段，尽可能详细还原原文本中的项目描述
+            - basic.resumeLink字段必须使用以下值: {resumeLink}
             
             【YAML结构】
             # 基本信息
@@ -261,14 +262,15 @@ public class ResumeProcessingService {
     }
 
     /**
-     * 将用户上传的简历内容转换为纯文本格式
+     * 将用户上传的简历内容转换为YAML格式
      * @param resumeContent 用户上传的简历内容（文本或从PDF提取的文本）
-     * @return 转换后的纯文本格式简历
+     * @param resumeLink 指定的简历链接路径
+     * @return 转换后的YAML格式简历
      */
-    public Flux<String> convertResumeToYaml(String resumeContent) {
-        // 创建系统提示
+    public Flux<String> convertResumeToYaml(String resumeContent, String resumeLink) {
+        // 创建系统提示，并传入resumeLink参数
         Message systemMessage = new SystemPromptTemplate(TO_YAML_PROMPT)
-                .createMessage(Map.of());
+                .createMessage(Map.of("resumeLink", resumeLink != null ? resumeLink : ""));
 
         // 创建用户消息
         Message userMessage = new UserMessage(resumeContent);
