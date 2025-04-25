@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: profile-generator
+  mandatory-file-encoding: UTF-8
+  ai:
+    dashscope:
+      api-key: ${ai_api_key}
+
+# 静态资源配置
+web:
+  resources:
+    static-locations: classpath:/static/
+
+# 文件上传配置
+servlet:
+  multipart:
+    enabled: true
+    max-file-size: 10MB
+    max-request-size: 10MB
+
+# 服务器配置
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    com.qihui.profilegenerator: DEBUG
+    org.springframework.ai: INFO
+
+# 阿里云OSS配置    
+aliyun:
+  oss:
+    endpoint: https://oss-cn-hangzhou.aliyuncs.com
+    access-key-id: ${oss_access_key_id}
+    access-key-secret: ${oss_access_key_secret}
+    bucket-name: resume-config
+    dir-prefix: resumes/
+    url-prefix: https://${aliyun.oss.bucket-name}.${aliyun.oss.endpoint}/

@@ -1,0 +1,163 @@
+basic:
+  name: "陈启辉"
+  title: "Java高级开发工程师"
+  location: "杭州余杭区"
+  email: "zjhzcqh@163.com"
+  github: "https://github.com/zjhzcqh"
+  linkedin: ""
+  phone: "13588307742"
+  resumeLink: "resume/Chen-Qihui-Resume-CN.pdf"
+  roles:
+    - "Java高级开发工程师"
+    - "微服务架构师"
+    - "后端开发者"
+    - "技术爱好者"
+    - "开源贡献者"
+
+about:
+  description: "我是一名经验丰富的Java高级开发工程师，专注于企业级应用开发和微服务架构设计。我熟悉Spring生态、分布式系统设计以及大数据处理技术。在工作之余，我喜欢研究新技术，热衷于开源项目，并通过实践不断提升自己的技术水平。"
+  skills:
+    - "Java"
+    - "Spring框架"
+    - "微服务架构"
+    - "数据结构与算法"
+    - "分布式系统"
+    - "缓存架构"
+    - "消息队列"
+    - "数据库管理"
+    - "Linux命令"
+    - "Web开发"
+    - "Golang"
+    - "Python"
+
+experience:
+  - company: "HRG"
+    position: "Java高级开发工程师"
+    period: "2023.11 - 至今"
+    logo: ""
+    description:
+      - "参与从0到1打造菜鸟能全球人事系统，开发人事组织主数据模块出海，建立北美、欧洲、新加坡三地数据中心，支持人事业务在美德法英西波泰马菲等多个地区顺利展开。"
+      - "建立海内外数据及消息同步机制，利用阿里DTS任务和定时脚本确保数据的一致性和及时更新，同时保障合规性。"
+      - "实现针对逻辑时间和固定日期的多时区处理策略，数据库中使用时间戳存储，并根据用户所在时区动态转换显示，提高用户体验。"
+      - "构建高效的权限管理框架，通过切面技术进行权限判断和过滤，支持子部门权限控制，并封装成注解简化开发流程。"
+
+  - company: "车端数据平台"
+    position: "Java高级开发工程师"
+    period: "2023.05 - 2023.11"
+    logo: ""
+    description:
+      - "主导了数据平台的国际化方案设计，包括支持多语言响应、多时区数据查询导出及跨区域数据安全访问。开发并部署了车辆数据平台的欧洲版本，同时优化了数据查询和导出逻辑，显著提升了用户体验和系统效率。"
+      - "通过开发user SDK实现了吉利多用户平台的高效集成，降低了项目接入成本，并增强了用户权限管理。引入了多服务日志追踪ID和线程池报警策略，提高了系统的故障排查能力和稳定性，确保了系统的高性能运行。"
+
+  - company: "Webex"
+    position: "Java高级开发工程师"
+    period: "2019.06 - 2023.01"
+    logo: ""
+    description:
+      - "负责Content Service中多个微服务（Thunder、Files、Avatar、Client-Logs、FeMO）的日常开发和维护工作，包括文件的安全扫描、转码预览、上传下载管理、头像管理和客户端日志管理等功能的设计实现。"
+      - "补充测试用例以提升代码覆盖率，优化系统如负责定时删除过期日志的任务设计，分页查询增强，优化卡死线程监控，处理OOM等线上异常，增强了系统的稳定性和安全性。"
+      - "设计并开发了Federation Migration Orchestrator，支持微服务数据迁移工作流的编排，通过设计SDK简化了众多微服务的数据迁移流程，有效减少了团队开发时间和成本。"
+      - "参与周期性的Oncall任务，确保线上服务的安全稳定运行，及时响应并解决突发问题，保障服务质量。"
+
+  - company: "绿城+"
+    position: "Java开发工程师"
+    period: "2017.08 - 2019.05"
+    logo: ""
+    description:
+      - "负责“绿城+”APP问卷调查、报名系统等社区活动功能开发。"
+      - "负责“智慧社区”项目大屏数据展示开发，app端用户模块，设备中心等功能开发。"
+
+education:
+  - school: "浙江科技学院"
+    degree: "本科"
+    period: "2013.09 - 2017.06"
+    major: "信息与计算科学"
+    description:
+      - "在校大学生综合测评成绩专业前15%，多次获得奖学金，参与学生会，支教等经历。"
+
+projects:
+  - name: "全球人事系统"
+    description: "参与从0到1打造菜鸟能全球人事系统，开发人事组织主数据模块出海，建立北美、欧洲、新加坡三地数据中心，支持人事业务在美德法英西波泰马菲等多个地区顺利展开。"
+    technologies: ["SpringBoot", "HSF", "Redis", "MySQL", "MetaQ"]
+    period: "2023.11 - 至今"
+    responsibilities:
+      - "建立海内外数据及消息同步机制，利用阿里DTS任务和定时脚本确保数据的一致性和及时更新，同时保障合规性。"
+      - "实现针对逻辑时间和固定日期的多时区处理策略，数据库中使用时间戳存储，并根据用户所在时区动态转换显示，提高用户体验。"
+      - "构建高效的权限管理框架，通过切面技术进行权限判断和过滤，支持子部门权限控制，并封装成注解简化开发流程。"
+    link: ""
+    github: ""
+
+  - name: "车端数据平台"
+    description: "车端数据平台基于极氪车端所有上报的海量ecu数据，提供M241查询、导出、可视化等能力，以及车辆远程诊断等功能，面向于车端工程师对车辆数据查询分析。"
+    technologies: ["SpringBoot", "Redis", "MySQL", "ClickHouse", "Kafka"]
+    period: "2023.05 - 2023.11"
+    responsibilities:
+      - "主导了数据平台的国际化方案设计，包括支持多语言响应、多时区数据查询导出及跨区域数据安全访问。开发并部署了车辆数据平台的欧洲版本，同时优化了数据查询和导出逻辑，显著提升了用户体验和系统效率。"
+      - "通过开发user SDK实现了吉利多用户平台的高效集成，降低了项目接入成本，并增强了用户权限管理。引⼊了多服务日志追踪ID和线程池报警策略，提高了系统的故障排查能力和稳定性，确保了系统的高性能运行。"
+    link: ""
+    github: ""
+
+  - name: "Webex Files"
+    description: "Webex旨在为企业和个人提供高质量的视频会议、在线会议、屏幕共享及消息文件传递服务。"
+    technologies: ["SpringBoot", "PostgreSQL", "Redis", "Kafka", "Docker"]
+    period: "2019.06 - 2023.01"
+    responsibilities:
+      - "负责Content Service中多个微服务（Thunder、Files、Avatar、Client-Logs、FeMO）的日常开发和维护工作，包括文件的安全扫描、转码预览、上传下载管理、头像管理和客户端日志管理等功能的设计实现。"
+      - "补充测试用例以提升代码覆盖率，优化系统如负责定时删除过期日志的任务设计，分页查询增强，优化卡死线程监控，处理OOM等线上异常，增强了系统的稳定性和安全性。"
+      - "设计并开发了Federation Migration Orchestrator，支持微服务数据迁移工作流的编排，通过设计SDK简化了众多微服务的数据迁移流程，有效减少了团队开发时间和成本。"
+      - "参与周期性的Oncall任务，确保线上服务的安全稳定运行，及时响应并解决突发问题，保障服务质量。"
+    link: ""
+    github: ""
+
+certifications:
+  - name: "阿里巴巴编码规范认证"
+    issuer: "阿里巴巴"
+    date: "2023"
+
+ui:
+  nav:
+    home: "首页"
+    about: "关于"
+    experience: "经历"
+    projects: "项目"
+    education: "教育"
+    certifications: "证书"
+    contact: "联系"
+  hero:
+    greeting: "你好，我是"
+    intro: "我是一名"
+    buttons:
+      contact: "联系我"
+      projects: "我的作品"
+  about:
+    title: "关于我"
+    subtitle: "我是谁？"
+    story: "我的故事"
+    skills: "我的技能"
+    button: "联系我"
+  experience:
+    title: "工作经历"
+    subtitle: "我的专业旅程"
+  projects:
+    title: "作品集"
+    subtitle: "近期项目"
+    buttons:
+      view: "查看项目"
+      github: "GitHub"
+  education:
+    title: "教育背景"
+    subtitle: "学术经历"
+  certifications:
+    title: "证书"
+    subtitle: "专业发展"
+  contact:
+    title: "联系方式"
+    subtitle: "与我联系"
+    email: "邮箱"
+    phone: "电话"
+    location: "位置"
+  footer:
+    rights: "版权所有"
+  lang:
+    switch: "中文 / EN"
+    resume: "简历"

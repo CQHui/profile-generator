@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.4.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.qihui</groupId>
+    <artifactId>profile-generator</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>profile-generator</name>
+    <description>profile-generator</description>
+    <properties>
+        <java.version>20</java.version>
+        <spring-ai.version>1.0.0-M6</spring-ai.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cloud.ai</groupId>
+            <artifactId>spring-ai-alibaba-starter</artifactId>
+            <version>1.0.0-M6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-pdf-document-reader</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.38</version>
+        </dependency>
+        
+        <!-- Apache Tika for file type detection and content extraction -->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-parsers-standard-package</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        
+        <!-- 阿里云OSS存储 -->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.17.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
