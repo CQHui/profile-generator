@@ -29,6 +29,9 @@ public class ResumeProcessingService {
             
             【输出格式要求1】
             1. 仅输出YAML文件内容，不要输出任何解释、说明或其他额外文字
+            2. 不要使用Markdown格式，不要添加```yaml、```等代码块标记
+            3. 不要添加任何# zh.yaml 或 # en.yaml 这样的标题行
+            4. 直接输出原始YAML内容，确保可以直接复制粘贴使用
 
             【格式要求2】
             1. 首先输出完整的中文YAML配置（zh.yaml）
