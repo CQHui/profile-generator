@@ -2,6 +2,14 @@
 
 基于Spring Boot和AI的简历处理系统，能够将简历转换为结构化文本、YAML配置和个人主页。
 
+## 效果展示
+
+### 生成的个人主页效果
+<img src="https://resume-config.oss-cn-hangzhou.aliyuncs.com/%E4%B8%AA%E4%BA%BA%E4%B8%BB%E9%A1%B5.png" width="600" alt="个人主页效果图">
+
+### 主页生成器界面
+<img src="https://resume-config.oss-cn-hangzhou.aliyuncs.com/%E4%B8%BB%E9%A1%B5%E7%94%9F%E6%88%90%E5%99%A8.png" width="600" alt="主页生成器界面">
+
 ## 功能特点
 
 - **简历分析**：上传PDF简历，自动提取结构化信息
@@ -156,4 +164,4 @@ http://localhost:8080
 
 ## 许可证
 
-本项目采用 [MIT 许可证](./LICENSE)。 
+本项目采用自定义许可证，允许个人和非商业用途，但明确禁止出售、转售或用于商业用途。详情请参阅 [LICENSE](./LICENSE) 文件。 
