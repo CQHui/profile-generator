@@ -159,7 +159,7 @@ public class ResumeController {
             log.warn("YAML内容格式不符合预期，无法分离中英文内容");
             // 保存为单个文件
             Path yamlPath = resourcesPath.resolve("config.yaml");
-            Files.write(yamlPath, yamlContent.getBytes(StandardCharsets.UTF_8));
+            Files.writeString(yamlPath, yamlContent);
             log.info("配置文件已保存: {}", yamlPath);
             
             return new String[]{
