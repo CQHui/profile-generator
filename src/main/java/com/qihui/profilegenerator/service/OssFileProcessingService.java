@@ -99,25 +99,6 @@ public class OssFileProcessingService implements FileProcessingService {
         }
 
     }
-    /**
-     * 使用Tika从输入流提取PDF文本
-     */
-    private String extractPdfTextWithTika(InputStream inputStream) throws IOException, TikaException, SAXException {
-        BodyContentHandler handler = new BodyContentHandler(-1); // -1表示不限制字符数
-        Metadata metadata = new Metadata();
-        ParseContext context = new ParseContext();
-        PDFParser pdfParser = new PDFParser();
-        
-        pdfParser.parse(inputStream, handler, metadata, context);
-        String text = handler.toString();
-        
-        if (text == null || text.trim().isEmpty()) {
-            throw new IOException("未能从PDF提取到文本内容");
-        }
-        
-        log.info("Tika成功提取PDF文本，长度: {} 字符", text.length());
-        return text;
-    }
     
     /**
      * 使用Spring AI从OSS路径提取PDF文本

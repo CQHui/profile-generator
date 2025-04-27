@@ -34,71 +34,6 @@ public class ResumeController {
     private final OssFileProcessingService ossFileProcessingService;
     private final OssService ossService;
     private static final Pattern KEY_PATTERN = Pattern.compile("^[a-zA-Z0-9_-]+$");
-    
-    /**
-     * 保存YAML文件到指定目录
-     * @return 保存的文件路径数组
-     */
-    private String[] saveYamlFiles(String yamlContent) throws IOException {
-        // 获取应用程序的资源目录路径
-        Path resourcesPath = Paths.get("src/main/resources/static/profile_website/config").toAbsolutePath();
-        
-        // 创建配置目录（如果不存在）
-        if (!Files.exists(resourcesPath)) {
-            Files.createDirectories(resourcesPath);
-        }
-        
-        // 解析YAML内容（假设内容包含zh.yaml和en.yaml的内容）
-        String[] parts = yamlContent.split("---");
-        
-        if (parts.length >= 2) {
-            // 保存中文YAML
-            String zhYaml = parts[0].trim();
-            Path zhYamlPath = resourcesPath.resolve("zh.yaml");
-            Files.write(zhYamlPath, zhYaml.getBytes(StandardCharsets.UTF_8));
-            log.info("中文YAML文件已保存: {}", zhYamlPath);
-            
-            // 保存英文YAML
-            String enYaml = parts[1].trim();
-            Path enYamlPath = resourcesPath.resolve("en.yaml");
-            Files.write(enYamlPath, enYaml.getBytes(StandardCharsets.UTF_8));
-            log.info("英文YAML文件已保存: {}", enYamlPath);
-            
-            return new String[]{
-                "/profile_website/config/zh.yaml",
-                "/profile_website/config/en.yaml"
-            };
-        } else {
-            log.warn("YAML内容格式不符合预期，无法分离中英文内容");
-            // 保存为单个文件
-            Path yamlPath = resourcesPath.resolve("config.yaml");
-            Files.write(yamlPath, yamlContent.getBytes(StandardCharsets.UTF_8));
-            log.info("配置文件已保存: {}", yamlPath);
-            
-            return new String[]{
-                "/profile_website/config/config.yaml"
-            };
-        }
-    }
-    
-    /**
-     * 记录上传文件的详细信息，便于调试
-     */
-    private void logFileInfo(MultipartFile file) {
-        if (file == null) {
-            log.warn("上传的文件为null");
-            return;
-        }
-        
-        try {
-            log.info("上传文件信息 - 名称: {}, 大小: {}字节, 内容类型: {}", 
-                file.getOriginalFilename(),
-                file.getSize(),
-                file.getContentType());
-        } catch (Exception e) {
-            log.warn("无法获取上传文件信息", e);
-        }
-    }
 
     /**
      * 根据指定的key生成个人资料配置
@@ -126,7 +61,7 @@ public class ResumeController {
             
             // 检查文件类型
             String contentType = file.getContentType();
-            if (contentType == null || !contentType.contains("application/pdf")) {
+            if (!contentType.contains("application/pdf")) {
                 return ResponseEntity.badRequest().body(
                         ResumeResponse.error("只支持PDF文件格式"));
             }
@@ -207,13 +142,13 @@ public class ResumeController {
             // 保存中文YAML
             String zhYaml = parts[0].trim();
             Path zhYamlPath = resourcesPath.resolve("zh.yaml");
-            Files.write(zhYamlPath, zhYaml.getBytes(StandardCharsets.UTF_8));
+            Files.writeString(zhYamlPath, zhYaml);
             log.info("中文YAML文件已保存: {}", zhYamlPath);
             
             // 保存英文YAML
             String enYaml = parts[1].trim();
             Path enYamlPath = resourcesPath.resolve("en.yaml");
-            Files.write(enYamlPath, enYaml.getBytes(StandardCharsets.UTF_8));
+            Files.writeString(enYamlPath, enYaml);
             log.info("英文YAML文件已保存: {}", enYamlPath);
             
             return new String[]{
@@ -303,6 +238,25 @@ public class ResumeController {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new IOException("生成HTML文件时被中断", e);
+        }
+    }
+
+    /**
+     * 记录上传文件的详细信息，便于调试
+     */
+    private void logFileInfo(MultipartFile file) {
+        if (file == null) {
+            log.warn("上传的文件为null");
+            return;
+        }
+
+        try {
+            log.info("上传文件信息 - 名称: {}, 大小: {}字节, 内容类型: {}",
+                    file.getOriginalFilename(),
+                    file.getSize(),
+                    file.getContentType());
+        } catch (Exception e) {
+            log.warn("无法获取上传文件信息", e);
         }
     }
 } 
