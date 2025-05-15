@@ -44,29 +44,6 @@ public class ResumeResponse {
     private String htmlUrl;
     
     /**
-     * 创建成功响应
-     */
-    public static ResumeResponse success(String content, long processingTimeMs) {
-        return ResumeResponse.builder()
-                .success(true)
-                .content(content)
-                .processingTimeMs(processingTimeMs)
-                .build();
-    }
-    
-    /**
-     * 创建成功响应（用于配置生成）
-     */
-    public static ResumeResponse successWithConfig(String content, String[] configFiles, long processingTimeMs) {
-        return ResumeResponse.builder()
-                .success(true)
-                .content(content)
-                .configFiles(configFiles)
-                .processingTimeMs(processingTimeMs)
-                .build();
-    }
-    
-    /**
      * 创建成功响应（用于配置和HTML生成）
      */
     public static ResumeResponse successWithConfigAndHtml(String content, String[] configFiles, String htmlUrl, long processingTimeMs) {

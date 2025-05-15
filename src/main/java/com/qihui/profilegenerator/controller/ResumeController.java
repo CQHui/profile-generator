@@ -79,7 +79,7 @@ public class ResumeController {
             
             // 收集Flux内容为字符串
             String yamlContent = yamlFlux.collectList().map(chunks -> String.join("", chunks)).block();
-            log.info("成功生成YAML内容，长度: {} 字符", yamlContent.length());
+            log.info("成功生成YAML内容，长度: {} 字符", yamlContent != null ? yamlContent.length() : 0);
             
             // 保存YAML文件到指定目录
             String[] configFiles = saveYamlFilesWithKey(yamlContent, key);
